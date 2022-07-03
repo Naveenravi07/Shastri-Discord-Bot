@@ -3,8 +3,8 @@ const { Permissions, MessageEmbed } = require('discord.js');
 const { Client, CommandInteraction } = require('discord.js');
 
 module.exports = {
-  name: 'say',
-  description: 'announce',
+  name: 'announce',
+  description: 'Creates an announcement',
   type: 'CHAT_INPUT',
   options: [
     {
@@ -50,21 +50,26 @@ module.exports = {
       let imageurl = options.getString('image-url');
 
       if (imageurl) {
-        if (!imageurl.startsWith('https://media.discordapp.net/attachments/')) {
+        if (!imageurl.startsWith("https://cdn.discordapp.com/attachments/")) {
           let invalidlinkembedd = new MessageEmbed();
           console.log(user.tag);
           invalidlinkembedd
             .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL({ dynamic: true }) })
             .setColor('DARK_AQUA')
             .setDescription(
-              `Image url starting with \`https://media.discordapp.net/attachments/\` are only accepted 
+              `Image url starting with \`https://cdn.discordapp.com/attachments/\` are only accepted 
                '\n' Simply sent your image  to any discord channel then copy the link and paste it here `
             );
+         return interaction.reply({ embeds: [invalidlinkembedd], ephemeral: true });
+        }
 
-          interaction.reply({ embeds: [invalidlinkembedd], ephemeral: true });
+        if (!imageurl.endsWith('.jpg') && !imageurl.endsWith('.png')) {
+         return  interaction.reply({
+            embeds: [new MessageEmbed().setColor('BLUE').setDescription(`Image urls ending with jpg or png only are accepted`)],
+            ephemeral: true,
+          });
         }
       }
-
       const image = imageurl;
       const sayembed = new MessageEmbed()
         .setColor('BLUE')
