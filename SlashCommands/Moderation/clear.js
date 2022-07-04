@@ -17,7 +17,8 @@ module.exports = {
     if (!interaction.member.permissions.has('MANAGE_MESSAGES')) {
       interaction.reply({ content: 'You Do Not Have Permissions To Delete Messages', ephemeral: true });
     } else {
-      let num = interaction.options.getInteger('num');
+      // let num = interaction.options.getString('num')
+      let num = interaction.options.getInteger('amount');
       if (!num) {
         return interaction.reply({ content: 'Pls Specify The Amount Of Messages To Delete', ephemeral: true });
       } else if (isNaN(num)) {
