@@ -20,7 +20,11 @@ client.on('interactionCreate', async (interaction) => {
   console.log(language);
 
   if (msg) {
-    await interaction.reply(`Uploading Your Code .....`);
+    await interaction.reply({
+      embeds: [new MessageEmbed().setColor('BLUE').setDescription(`Uploading Your Code .....`)],
+      ephemeral: true,
+    });
+
     create(
       [
         {
@@ -39,14 +43,13 @@ client.on('interactionCreate', async (interaction) => {
           .setColor('BLUE')
           .setDescription(`Your code has been posted successfully and is now live on ${value.url}`)
           .setThumbnail(interaction.member.displayAvatarURL({ dynamic: true }));
+
         interaction.editReply({ embeds: [resultembedd] });
       })
       .catch((err) => {
-        console.log(err);
-        if (err == 'SyntaxError') {
-          console.log('andi');
-        }
-        interaction.reply({ content: `An error occurred with the api of source bin . please try again after some time` });
+        interaction.editReply({
+          embeds: [new MessageEmbed().setColor('BLUE').setDescription('Error make sure you spelt the language correctly without spaces')],
+        });
       });
   } else {
     await interaction.reply(`Uploading Your Code .....`);
@@ -71,11 +74,9 @@ client.on('interactionCreate', async (interaction) => {
         interaction.editReply({ embeds: [resultembedd] });
       })
       .catch((err) => {
-        console.log(err);
-        if (err == 'SyntaxError') {
-          console.log('syntax err');
-        }
-        interaction.reply({ content: `An error occurred with the api of source bin . please try again after some time` });
+        interaction.editReply({
+          embeds: [new MessageEmbed().setColor('BLUE').setDescription('Error make sure you spelt the language correctly without spaces')],
+        });
       });
   }
 });

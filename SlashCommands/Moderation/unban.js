@@ -10,6 +10,9 @@ client.commands = new Discord.Collection();
 module.exports = {
   name: 'unban',
   description: 'Unbans a User',
+  type:'Moderation',
+  usage:'/unban',
+  perms:'Ban Members',
   options: [
     {
       name: 'user-id',

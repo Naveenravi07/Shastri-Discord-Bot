@@ -5,10 +5,6 @@ const commandschema = new mongoose.Schema({
         type: String,
         required: true
     },
-    usage: {
-        type: String,
-        required: true
-    },
     description: {
         type: String,
         required: true
@@ -20,6 +16,10 @@ const commandschema = new mongoose.Schema({
     perms: {
         type: String,
         required: true
+    },
+    usage:{
+        type:String,
+        required:true
     }
 })
 module.exports = mongoose.model('commands-schema', commandschema)

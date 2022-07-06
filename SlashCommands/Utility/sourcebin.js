@@ -4,11 +4,14 @@ const { MessageEmbed, Modal, TextInputComponent, MessageActionRow } = require('d
 module.exports = {
   name: 'bin',
   description: 'Uploads Your Code To Source Bin And Gives You The Link',
+  type: 'Utility',
+  usage:'/bin',
+  perms:'everyone',
 
   async run(client, interaction, args) {
     const modal = new Modal().setCustomId('bin').setTitle('SoureBin');
-    const codeinput = new TextInputComponent().setCustomId('code').setLabel('The code to be uploaded').setStyle('PARAGRAPH');
-    const langInput = new TextInputComponent().setCustomId('language').setLabel('Language you used in the code').setStyle('SHORT');
+    const codeinput = new TextInputComponent().setCustomId('code').setLabel('The code to be uploaded').setStyle('PARAGRAPH').setRequired()
+    const langInput = new TextInputComponent().setCustomId('language').setLabel('Language you used in the code').setStyle('SHORT').setRequired()
 
     const description = new TextInputComponent().setCustomId('description').setLabel('Explain issue with code').setStyle('SHORT');
 

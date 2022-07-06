@@ -4,8 +4,9 @@ let { MessageEmbed } = require('discord.js');
 module.exports = {
   name: 'meme',
   description: 'sends a meme',
-  permissions: 'everyone',
-  usage: '.meme',
+  perms: 'everyone',
+  usage: '/meme',
+  type:'Fun',
   async run(client, interaction, args) {
     try {
       let data = await random.getMeme();

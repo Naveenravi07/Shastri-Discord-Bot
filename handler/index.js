@@ -2,6 +2,8 @@ const { glob } = require('glob');
 const { promisify } = require('util');
 const { Client } = require('discord.js');
 const mongoose = require('mongoose');
+const { Types } = mongoose;
+const commandschema = require('../schemas/commandschema');
 
 const globPromise = promisify(glob);
 
@@ -30,11 +32,26 @@ module.exports = async (client) => {
   const slashCommands = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
 
   const arrayOfSlashCommands = [];
-  slashCommands.map((value) => {
+  slashCommands.map(async(value) => {
     const file = require(value);
     if (!file?.name) return;
     client.slashCommands.set(file.name, file);
 
+   await commandschema.findOneAndUpdate(
+      {
+        _id: new Types.ObjectId(),
+      },
+      {
+        command: file.name,
+        description: file.description,
+        type: file.type,
+        perms: file.perms,
+        usage: file.usage,
+      },
+      {
+        upsert: true,
+      }
+    );
     if (['MESSAGE', 'USER'].includes(file.type)) delete file.description;
     arrayOfSlashCommands.push(file);
   });
@@ -47,5 +64,4 @@ module.exports = async (client) => {
   });
 
   // mongoose
-
 };

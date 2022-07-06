@@ -8,6 +8,9 @@ const client = new Client({
 module.exports = {
   name: 'ban',
   description: 'Bans a member',
+  type: 'Moderation',
+  usage:'/ban',
+  perms:'Ban Members',
   options: [
     {
       name: 'user',

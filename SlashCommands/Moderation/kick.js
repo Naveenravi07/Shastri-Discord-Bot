@@ -8,6 +8,9 @@ const client = new Client({
 module.exports = {
   name: 'kick',
   description: 'Kicks a member',
+  type: 'Moderation',
+  usage:'/kick',
+  perms:'Kick Members',
   options: [
     {
       name: 'user',

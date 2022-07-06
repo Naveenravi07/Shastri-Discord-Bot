@@ -3,6 +3,9 @@ const { Clinet, Message, MessageEmbed, CommandInteraction } = require('discord.j
 module.exports = {
   name: 'gay',
   description: 'Shows the Chance Of Being A Gay',
+  type: 'Fun',
+  perms: 'Everyone',
+  usage: '/gay',
   options: [
     {
       name: 'mention',

@@ -2,8 +2,10 @@ const { Client, CommandInteraction } = require("discord.js");
 
 module.exports = {
     name: "ping",
-    description: "returns websocket ping",
-    type: 'CHAT_INPUT',
+    description: "Returns websocket ping",
+    type: 'information',
+    perms:'everyone',
+    usage:'/ping',
     /**
      *
      * @param {Client} client

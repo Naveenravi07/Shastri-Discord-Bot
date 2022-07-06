@@ -5,7 +5,9 @@ const { Client, CommandInteraction } = require('discord.js');
 module.exports = {
   name: 'announce',
   description: 'Creates an announcement',
-  type: 'CHAT_INPUT',
+  type: 'Moderation',
+  usage:'/announce',
+  perms:'Manage Messages',
   options: [
     {
       name: 'message',
