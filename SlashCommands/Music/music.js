@@ -60,6 +60,26 @@ module.exports = {
               name: '⏹ Stop Music',
               value: 'stop',
             },
+            {
+              name: '🔢 View Queue',
+              value: 'queue'
+            },
+            {
+              name: '🔀Shuffle Queue',
+              value: 'shuffle'
+            },
+            {
+              name: '🔃Autoplay Modes',
+              value: 'autoplay'
+            },
+            {
+              name: '🔂 Add A Related Song',
+              value: 'relatedsong'
+            },
+            {
+              name: ' ♋ Toggle Repeat Mode',
+              value: 'repeatmode'
+            }
           ],
         },
       ],
@@ -105,18 +125,18 @@ module.exports = {
         case 'volume': {
           const volume = options.getInteger('percent')
           if (volume > 100 || volume < 1) {
-          return  interaction.reply({
+            return interaction.reply({
               embeds: [
                 new MessageEmbed().setColor("BLUE").setDescription(`Volume Must Be Between 1 and 100`)
               ], ephemeral: true
             })
           }
 
-          client.distube.setVolume(voicechannel,volume)
+          client.distube.setVolume(voicechannel, volume)
           return interaction.reply({
             embeds: [
               new MessageEmbed().setColor("BLUE").setDescription(`Volume is now set to ** ${volume} Percent** `)
-            ],ephemeral:true
+            ], ephemeral: true
           })
         }
 
@@ -155,13 +175,58 @@ module.exports = {
                 ], ephemeral: true
               })
             }
-            case'resume':{
+            case 'resume': {
               await queue.resume(voicechannel)
               return interaction.reply({
-                embeds:[
+                embeds: [
                   new MessageEmbed().setColor("BLUE").setDescription("Music has been resumed")
-                ],ephemeral:true
+                ], ephemeral: true
               })
+            }
+            case 'queue': {
+              return interaction.reply({
+                embeds: [
+                  new MessageEmbed().setColor("BLUE").setTitle(`Queue of ${interaction.guild.name}`)
+                    .setDescription(`${queue.songs.map((song, id) => `\n **${id + 1}**. ${song.name} -\` ${song.formattedDuration}\``
+                    )}`)
+                    .setThumbnail(`${interaction.guild.iconURL({ dynamic: true })}`)
+                ]
+              })
+            }
+
+            case 'shuffle': {
+              await queue.shuffle(voicechannel)
+              return interaction.reply({
+                embeds: [new MessageEmbed()
+                  .setColor("BLUE").setDescription("The queue has been shuffled ✅")
+                ]
+              })
+            }
+
+            case 'autoplay': {
+              let Mode = await queue.toggleAutoplay(voicechannel)
+              return interaction.reply({
+                embeds: [
+                  new MessageEmbed().setColor("BLUE")
+                    .setDescription(`AutoPlay mode is set to **${Mode ? "On" : "Off"} **`)
+                ]
+              })
+            }
+
+            case'relatedsong':{
+              await queue.addRelatedSong(voicechannel)
+              return interaction.reply({embeds:[
+                new MessageEmbed().setColor("BLUE").setDescription("Related song has been added to the queue")
+              ]})
+            }
+
+            case'repeatmode':{
+              let mode2=await client.distube.setRepeatMode(queue)
+
+              return interaction.reply({embeds:[
+                new MessageEmbed().setColor("BLUE")
+                .setDescription(`Repeat Mode is now set to **${mode2=mode2?mode2==2?"Queue":"Song":"Off"}**`)
+              ]})
             }
           }
         }

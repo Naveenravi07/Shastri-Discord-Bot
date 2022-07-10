@@ -7,10 +7,15 @@ const commandschema = require('../schemas/commandschema');
 
 const globPromise = promisify(glob);
 
+    
 /**
  * @param {Client} client
  */
 module.exports = async (client) => {
+  // Ivide Und Monee Prblm is simultaneosly upload and delete 
+  // await commandschema.remove({})
+
+
   // Commands
   const commandFiles = await globPromise(`${process.cwd()}/commands/**/*.js`);
   commandFiles.map((value) => {
@@ -32,28 +37,29 @@ module.exports = async (client) => {
   const slashCommands = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
 
   const arrayOfSlashCommands = [];
-  slashCommands.map(async(value) => {
+  slashCommands.map(async (value) => {
     const file = require(value);
     if (!file?.name) return;
     client.slashCommands.set(file.name, file);
 
-   await commandschema.findOneAndUpdate(
-      {
-        _id: new Types.ObjectId(),
-      },
-      {
-        command: file.name,
-        description: file.description,
-        type: file.type,
-        perms: file.perms,
-        usage: file.usage,
-      },
-      {
-        upsert: true,
-      }
-    );
+    // await commandschema.updateMany(
+    //   {
+    //     _id: new Types.ObjectId(),
+    //   },
+    //   {
+    //     command: file.name,
+    //     description: file.description,
+    //     type: file.type,
+    //     perms: file.perms,
+    //     usage: file.usage,
+    //   },
+    //   {
+    //     upsert: true,
+    //   }
+    // );
     if (['MESSAGE', 'USER'].includes(file.type)) delete file.description;
     arrayOfSlashCommands.push(file);
+
   });
   client.on('ready', async () => {
     // Register for a single guild
