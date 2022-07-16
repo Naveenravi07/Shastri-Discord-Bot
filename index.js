@@ -35,27 +35,27 @@ let langsSettings = {};
 /* --- DASHBOARD --- */
 (async () => {
   DBfunctions.getmodcmd().then((data2) => {
-    console.log(data2);
+
     modcm = data2
   }).catch((error) => {
     console.log(error);
   });
   DBfunctions.getfuncmd().then((data) => {
-    console.log(data);
+
     funcm = data
   }).catch((error) => {
     console.log(error);
   });
 
   DBfunctions.getUtilcmd().then((data3) => {
-    console.log(data3);
+
     utilcm = data3;
   }).catch((Err) => {
     console.log(Err);
   })
 
   DBfunctions.getInfocmd().then((data4) => {
-    console.log(data4);
+
     infocm = data4;
   }).catch((Err) => {
     console.log(Err);
@@ -114,7 +114,6 @@ let langsSettings = {};
           footer: "Footer",
         },
       },
-
       commands: [
         // Moderation
 
@@ -182,7 +181,7 @@ let langsSettings = {};
             commandAlias: 'None',
           }))
         },
-       
+
 
       ],
     }),

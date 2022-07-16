@@ -4,16 +4,17 @@ const { Client } = require('discord.js');
 const mongoose = require('mongoose');
 const { Types } = mongoose;
 const commandschema = require('../schemas/commandschema');
-
+const table = require("ascii-table")
 const globPromise = promisify(glob);
 
-    
+var AsciTable = new table('Shastri Clone')
+AsciTable.setHeading('Index', 'Commands','Status')
 /**
  * @param {Client} client
  */
 module.exports = async (client) => {
   // Ivide Und Monee Prblm is simultaneosly upload and delete 
-  // await commandschema.remove({})
+ // await commandschema.remove({})
 
 
   // Commands
@@ -37,11 +38,13 @@ module.exports = async (client) => {
   const slashCommands = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
 
   const arrayOfSlashCommands = [];
-  slashCommands.map(async (value) => {
+  slashCommands.map(async (value,index) => {
     const file = require(value);
     if (!file?.name) return;
     client.slashCommands.set(file.name, file);
 
+    AsciTable.addRow(index+1, file.name,'✅')
+    
     // await commandschema.updateMany(
     //   {
     //     _id: new Types.ObjectId(),
@@ -61,6 +64,7 @@ module.exports = async (client) => {
     arrayOfSlashCommands.push(file);
 
   });
+  console.log(AsciTable.toString());
   client.on('ready', async () => {
     // Register for a single guild
     await client.guilds.cache.get('909123885977456681').commands.set(arrayOfSlashCommands);
