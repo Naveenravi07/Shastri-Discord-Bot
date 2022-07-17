@@ -1,6 +1,6 @@
 const client = require('../index');
 const guildschema = require('../schemas/guildschema');
-
+const profileschema = require("../schemas/profileschema")
 client.on('guildCreate', async (guild) => {
   let id = guild.id;
   let servername = guild.name;

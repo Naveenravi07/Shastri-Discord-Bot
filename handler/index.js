@@ -14,7 +14,7 @@ AsciTable.setHeading('Index', 'Commands','Status')
  */
 module.exports = async (client) => {
   // Ivide Und Monee Prblm is simultaneosly upload and delete 
- // await commandschema.remove({})
+ //await commandschema.remove({})
 
 
   // Commands
