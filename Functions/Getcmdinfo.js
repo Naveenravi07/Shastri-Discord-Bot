@@ -23,5 +23,10 @@ module.exports = {
             let infocmd = await cmdchema.find({ type: "information" })
             resolve(infocmd)
         })
+    }, getEcoCmd: () => {
+        return new Promise(async (resolve, reject) => {
+            let ecocmd = await cmdchema.find({ type: "Economy" })
+            resolve(ecocmd)
+        })
     }
 }

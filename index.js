@@ -26,7 +26,7 @@ client.distube = new DisTube(client, {
 db.connectDb();
 // Initializing the project
 // require('./handler')(client);
-["index", "DistubeEvents"].forEach(h => {
+["index", "DistubeEvents" ].forEach(h => {
   require(`./handler/${h}`)(client)
 })
 
@@ -61,7 +61,11 @@ let langsSettings = {};
     console.log(Err);
   })
 
-
+  DBfunctions.getEcoCmd().then((data5) => {
+    ecocm = data5;
+  }).catch((Err) => {
+    console.log(Err);
+  })
   let DBD = require('discord-dashboard');
   await DBD.useLicense(config.dbd_license);
   DBD.Dashboard = DBD.UpdatedClass();
@@ -181,6 +185,17 @@ let langsSettings = {};
             commandAlias: 'None',
           }))
         },
+
+        {
+          category: `Economy`,
+          subTitle: `Economy Commands`,
+          list: ecocm.map(item => ({
+            commandName: item.command,
+            commandUsage: item.usage,
+            commandDescription: item.description,
+            commandAlias: 'None',
+          }))
+        }
 
 
       ],

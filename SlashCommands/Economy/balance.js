@@ -27,7 +27,7 @@ module.exports = {
 
         const user = options.getUser('user')
         if (!user) {
-            let doc = await profileschema.findOne({ userid: member.id })
+            let doc = await profileschema.findOne({ userid: member.id ,guildid:guild.id})
 
             if (!doc) {
                 await profileschema.findOneAndUpdate(
@@ -70,7 +70,7 @@ module.exports = {
             }
         } else {
             let userid = user.id
-            const doc2 = await profileschema.findOne({ userid: userid })
+            const doc2 = await profileschema.findOne({ userid: userid ,guil:guild.id})
             if (!doc2) {
                 await profileschema.findOneAndUpdate(
                     { _id: Types.ObjectId() },

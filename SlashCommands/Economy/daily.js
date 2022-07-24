@@ -122,32 +122,40 @@ module.exports = {
                     })
                 }
             } else {
-                const usercheck2 = await profileschema.findOne({ userid: userid })
-                if (!usercheck2) {
-                    await profileschema.findOneAndUpdate(
-                        {
-                            userid: userid
-                        },
-                        {
-                            _id: Types.ObjectId(),
-                            userid: userid,
-                            guildid: guild.id,
-                            bank: 1000,
-                            wallet: 0
-                        }, {
-                        upsert: true
-                    })
-                }
+                // const usercheck2 = await profileschema.findOne({
+                //     userid: userid,
+                //     guildid: guild.id
+                // })
+                // if (!usercheck2) {
+                //     await profileschema.findOneAndUpdate(
+                //         {
+                //             userid: userid
+                //         },
+                //         {
+                //             _id: Types.ObjectId(),
+                //             userid: userid,
+                //             guildid: guild.id,
+                //             bank: 1000,
+                //             wallet: 0
+                //         }, {
+                //         upsert: true
+                //     })
+                // }
 
+                function randomIntFromInterval(min, max) { // min and max included 
+                    return Math.floor(Math.random() * (max - min + 1) + min)
+                }
+                const reward2 = randomIntFromInterval(1500, 1200)
                 const data = await dailyschema.findOneAndUpdate(
                     {
-                        userid: userid
+                        userid: userid,
+                        guildid:guild.id
                     },
                     {
-                        _id: Types.ObjectId(),
+                        id: Types.ObjectId(),
                         userid: userid,
                         guildid: guild.id,
-                        reward: reward,
+                        reward: reward2,
                         time: Date.now()
                     }, {
                     upsert: true
@@ -166,7 +174,7 @@ module.exports = {
                         {
                             $set: {
                                 bank: {
-                                    $add: [reward, "$oldval"]
+                                    $add: [reward2, "$oldval"]
                                 }
                             }
                         },

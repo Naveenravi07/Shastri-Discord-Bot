@@ -12,7 +12,7 @@ module.exports = {
      * @param {CommandInteraction} interaction
      * @param {String[]} args
      */
-    run: async (client, interaction, args) => {
+    run: async (client, interactian, args) => {
         interaction.reply({ content: `${client.ws.ping}ms!`,ephemeral:true });
     },
 };
