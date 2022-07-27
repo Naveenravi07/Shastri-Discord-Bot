@@ -35,19 +35,11 @@ module.exports = {
             let doc = await profileschema.findOne({ userid: userid, guildid: guild.id })
             // console.log(doc);
             if (!doc) {
-                await profileschema.findOneAndUpdate(
-                    {
-                        userid: userid,
-                        guildid:guild.id
-                    },
-                    {
-                        _id: Types.ObjectId(),
-                        userid: userid,
-                        guildid: guild.id,
-                        bank: 1000,
-                        wallet: 0
-                    }, {
-                    upsert: true
+                return interaction.reply({
+                    embeds: [
+                        new MessageEmbed().setColor("BLUE")
+                            .setDescription("You dont have a bank account please make one by ``account`` command")
+                    ], ephemeral: true
                 })
             } else {
                 if (num > doc.wallet) {

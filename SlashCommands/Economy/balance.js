@@ -27,32 +27,14 @@ module.exports = {
 
         const user = options.getUser('user')
         if (!user) {
-            let doc = await profileschema.findOne({ userid: member.id ,guildid:guild.id})
+            let doc = await profileschema.findOne({ userid: member.id, guildid: guild.id })
 
             if (!doc) {
-                await profileschema.findOneAndUpdate(
-                    { _id: Types.ObjectId() },
-                    {
-                        guildid: member.guild.id,
-                        userid: member.id,
-                        bank: 1000,
-                        wallet: 0
-                    },
-                    {
-                        upsert: true
-                    }
-                )
                 return interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setTitle('Account Balance')
-                            .addField(`**Bank  **`, `** 1000 Coins **`)
-                            .addField(`**Wallet **`, `**  0 Coins **`)
-                            .addField(`**Total **`, `**  1000 Coins **`)
-                            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-                            .setTimestamp()
-                            .setFooter(`Economy By Shastri`)
-                    ]
+                            .setDescription("You dont have a bank account please make one by ``account`` command")
+                    ], ephemeral: true
                 })
             } else {
                 return interaction.reply({
@@ -70,31 +52,13 @@ module.exports = {
             }
         } else {
             let userid = user.id
-            const doc2 = await profileschema.findOne({ userid: userid ,guil:guild.id})
+            const doc2 = await profileschema.findOne({ userid: userid, guil: guild.id })
             if (!doc2) {
-                await profileschema.findOneAndUpdate(
-                    { _id: Types.ObjectId() },
-                    {
-                        guildid: member.guild.id,
-                        userid: user.id,
-                        bank: 1000,
-                        wallet: 0
-                    },
-                    {
-                        upsert: true
-                    }
-                )
                 return interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setTitle('Account Balance')
-                            .addField(`**Bank  **`, `** 1000 Coins **`)
-                            .addField(`**Wallet **`, `**  0 Coins **`)
-                            .addField(`**Total **`, `**  1000 Coins **`)
-                            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
-                            .setTimestamp()
-                            .setFooter(`Economy By Shastri`)
-                    ]
+                            .setDescription("You dont have a bank account please make one by ``account`` command")
+                    ], ephemeral: true
                 })
             }
             await interaction.reply({

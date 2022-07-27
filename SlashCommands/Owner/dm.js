@@ -59,7 +59,7 @@ module.exports = {
                 embeds: [
                     new MessageEmbed().setColor('BLUE')
                         .setDescription(`This command is not available`)
-                ]
+                ],ephemeral:true
             })
         }
 

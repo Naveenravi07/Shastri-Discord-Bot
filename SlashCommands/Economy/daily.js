@@ -17,22 +17,15 @@ module.exports = {
     async run(client, interaction, args) {
         const { member, guild, user } = interaction
         const userid = member.id
-        const check = await dailyschema.findOne({ userid: userid })
+        const check = await dailyschema.findOne({ userid: userid, guildid: guild.id })
         if (!check) {
-            const usercheck = await profileschema.findOne({ userid: userid })
+            const usercheck = await profileschema.findOne({ userid: userid, guildid: guild.id })
             if (!usercheck) {
-                await profileschema.findOneAndUpdate(
-                    {
-                        userid: userid
-                    },
-                    {
-                        _id: Types.ObjectId(),
-                        userid: userid,
-                        guildid: guild.id,
-                        bank: 1000,
-                        wallet: 0
-                    }, {
-                    upsert: true
+                return interaction.reply({
+                    embeds: [
+                        new MessageEmbed().setColor("BLUE")
+                            .setDescription("You dont have a bank account please make one by ``account`` command")
+                    ], ephemeral: true
                 })
             }
 
@@ -121,26 +114,7 @@ module.exports = {
                         ], ephemeral: true
                     })
                 }
-            } else {
-                // const usercheck2 = await profileschema.findOne({
-                //     userid: userid,
-                //     guildid: guild.id
-                // })
-                // if (!usercheck2) {
-                //     await profileschema.findOneAndUpdate(
-                //         {
-                //             userid: userid
-                //         },
-                //         {
-                //             _id: Types.ObjectId(),
-                //             userid: userid,
-                //             guildid: guild.id,
-                //             bank: 1000,
-                //             wallet: 0
-                //         }, {
-                //         upsert: true
-                //     })
-                // }
+            } else {    
 
                 function randomIntFromInterval(min, max) { // min and max included 
                     return Math.floor(Math.random() * (max - min + 1) + min)
@@ -149,7 +123,7 @@ module.exports = {
                 const data = await dailyschema.findOneAndUpdate(
                     {
                         userid: userid,
-                        guildid:guild.id
+                        guildid: guild.id
                     },
                     {
                         id: Types.ObjectId(),
