@@ -32,11 +32,11 @@ module.exports = {
             function randomIntFromInterval(min, max) { // min and max included 
                 return Math.floor(Math.random() * (max - min + 1) + min)
             }
-            const reward = randomIntFromInterval(1500, 1200)
+            const reward = randomIntFromInterval(3000, 4500)
             // console.log(reward)
             const data = await dailyschema.findOneAndUpdate(
                 {
-                    userid: userid
+                    userid: userid,guildid:guild.id
                 },
                 {
                     _id: Types.ObjectId(),
@@ -50,7 +50,8 @@ module.exports = {
 
             let ag = await profileschema.updateOne(
                 {
-                    userid: userid
+                    userid: userid,
+                    guildid:guild.id
                 },
                 [
                     {
@@ -114,12 +115,12 @@ module.exports = {
                         ], ephemeral: true
                     })
                 }
-            } else {    
+            } else {
 
                 function randomIntFromInterval(min, max) { // min and max included 
                     return Math.floor(Math.random() * (max - min + 1) + min)
                 }
-                const reward2 = randomIntFromInterval(1500, 1200)
+                const reward2 = randomIntFromInterval(3000, 4500)
                 const data = await dailyschema.findOneAndUpdate(
                     {
                         userid: userid,
@@ -158,7 +159,7 @@ module.exports = {
                 function randomIntFromInterval(min, max) { // min and max included 
                     return Math.floor(Math.random() * (max - min + 1) + min)
                 }
-                const reward = randomIntFromInterval(1500, 1200)
+                const reward = randomIntFromInterval(3000, 4500)
                 return interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor('BLUE')

@@ -15,6 +15,12 @@ const profileschema = new mongoose.Schema({
     },
     wallet: {
         type: Number,
-    }
+    },
+    items: [
+        {
+            type: String
+        }
+    ]
+
 });
 module.exports = mongoose.model('profile-schema', profileschema);
