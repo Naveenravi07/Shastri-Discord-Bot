@@ -1,5 +1,6 @@
 let { MessageEmbed, CommandInteraction } = require("discord.js")
 const profileschema = require("../../schemas/profileschema")
+let emoji=require("../../emojis.json")
 module.exports = {
     name: 'account',
     description: 'Create,Delete,Activate,Inactivate users economy account',
@@ -42,7 +43,7 @@ module.exports = {
                     return interaction.reply({
                         embeds: [
                             new MessageEmbed().setColor("BLUE")
-                                .setDescription(`You Already Have A Bank Account`)
+                                .setDescription(`${emoji.invalid} -You Already Have A Bank Account`)
                         ], ephemeral: true
                     })
                 } else {
@@ -61,7 +62,7 @@ module.exports = {
                             })
                         return interaction.reply({
                             embeds: [
-                                new MessageEmbed().setTitle(`** ACCOUNT CREATED **`)
+                                new MessageEmbed().setTitle(`${emoji.greentick} ** ACCOUNT CREATED **`)
                                     .setThumbnail(member.displayAvatarURL())
 
                                     .setDescription(`Your Account Has Been Created In Shastris Economy System \n\n`)
@@ -79,7 +80,7 @@ module.exports = {
                         return interaction.reply({
                             embeds: [
                                 new MessageEmbed().setColor("BLUE")
-                                    .setDescription(`An Error Occured Please Wait Till We Fix This Issue`)
+                                    .setDescription(`${emoji.invalid} -An Error Occured Please Wait Till We Fix This Issue`)
                             ], ephemeral: true
                         })
                     }
@@ -94,7 +95,7 @@ module.exports = {
                         return interaction.reply({
                             embeds: [
                                 new MessageEmbed().setColor("BLUE")
-                                    .setDescription(`You Dont Have A Bank Account `)
+                                    .setDescription(`${emoji.invalid} -You Dont Have A Bank Account `)
                             ], ephemeral: true
                         })
                     } else {
@@ -102,7 +103,7 @@ module.exports = {
                         return interaction.reply({
                             embeds: [
                                 new MessageEmbed().setColor("BLUE")
-                                    .setDescription(`Your economy account has been deleted `)
+                                    .setDescription(`${emoji.greentick} -Your economy account has been deleted `)
                             ]
                         })
                     }
@@ -111,7 +112,7 @@ module.exports = {
                     return interaction.reply({
                         embeds: [
                             new MessageEmbed().setColor("BLUE")
-                                .setDescription(`An Error Occured Please Wait Till We Fix This Issue`)
+                                .setDescription(`${emoji.invalid} -An Error Occured Please Wait Till We Fix This Issue`)
                         ], ephemeral: true
                     })
                 }

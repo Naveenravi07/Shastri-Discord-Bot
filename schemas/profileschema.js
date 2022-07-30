@@ -20,7 +20,10 @@ const profileschema = new mongoose.Schema({
         {
             type: String
         }
-    ]
+    ],
+    robbedTime:{
+        type:Date,
+    }
 
 });
 module.exports = mongoose.model('profile-schema', profileschema);

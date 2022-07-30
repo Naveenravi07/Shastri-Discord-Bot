@@ -1,6 +1,7 @@
 const { MessageEmbed, CommandInteraction } = require("discord.js")
 let profileschema = require('../../schemas/profileschema')
 const { Types } = require('mongoose')
+let emoji = require("../../emojis.json")
 module.exports = {
     name: 'deposit',
     description: 'Deposits money to bank',
@@ -28,7 +29,7 @@ module.exports = {
         if (num <= 0) {
             return interaction.reply({
                 embeds: [
-                    new MessageEmbed().setColor(`BLUE`).setDescription(`Please provide a valid amount`)
+                    new MessageEmbed().setColor(`BLUE`).setDescription(`${emoji.invalid} -Please provide a valid amount`)
                 ], ephemeral: true
             })
         } else {
@@ -46,7 +47,7 @@ module.exports = {
                     return interaction.reply({
                         embeds: [
                             new MessageEmbed().setColor(`BLUE`)
-                                .setDescription(`You do not have enough money in your wallet`)
+                                .setDescription(` ${emoji.invalid}- You do not have enough money in your wallet`)
                         ], ephemeral: true
                     })
                 } else {
@@ -78,7 +79,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor('BLUE')
-                            .setDescription(`Deposit of ${num} successful `)
+                            .setDescription(`${emoji.greentick} Deposit of ${num} successful `)
                     ]
                 })
             }

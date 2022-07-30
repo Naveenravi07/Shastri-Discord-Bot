@@ -1,6 +1,6 @@
 let { MessageEmbed, CommandInteraction, Client } = require("discord.js")
 const profileschema = require("../../schemas/profileschema")
-
+let emoji = require("../../emojis.json")
 module.exports = {
     name: 'gamble',
     description: 'Loose or double your money',
@@ -78,7 +78,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setDescription(`Congrats You Have Gained ${amount * 2} In This Gamble`)
+                            .setDescription(`Congrats You Have Gained ${amount * 2} In This Gamble ${emoji.dance}`)
                     ]
                 })
             } catch (err) {
@@ -86,7 +86,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setDescription(`An Error Occured please report till we fix this issue`)
+                            .setDescription(`${emoji.invalid}- An Error Occured please report till we fix this issue`)
                     ], ephemeral: true
                 })
             }
@@ -113,7 +113,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setDescription(`Oops You Have Lost ${amount} In This Gamble`)
+                            .setDescription(`${emoji.laugh}- Oops You Have Lost ${amount} In This Gamble`)
                     ]
                 })
             } catch (err) {
@@ -121,7 +121,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setDescription(`An Error Occured please report till we fix this issue`)
+                            .setDescription(` ${emoji.invalid}- An Error Occured please report till we fix this issue`)
                     ], ephemeral: true
                 })
             }

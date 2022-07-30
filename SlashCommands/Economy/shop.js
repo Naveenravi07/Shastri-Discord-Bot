@@ -1,4 +1,5 @@
 let { MessageEmbed, CommandInteraction, MessageActionRow, MessageButton, ButtonInteraction, Collector } = require("discord.js")
+let emoji = require("../../emojis.json")
 let profileschema = require("../../schemas/profileschema")
 module.exports = {
     name: 'shop',
@@ -138,7 +139,7 @@ module.exports = {
                     await interaction.editReply({
                         embeds: [
                             new MessageEmbed().setColor('BLUE')
-                                .setDescription(`You failed to respond to the confirmation message`)
+                                .setDescription(`${emoji.invalid} You failed to respond to the confirmation message`)
                         ], components: []
                     })
                 })

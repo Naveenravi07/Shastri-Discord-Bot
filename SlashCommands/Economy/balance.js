@@ -1,6 +1,7 @@
 const { MessageEmbed, CommandInteraction } = require("discord.js")
 const profileschema = require("../../schemas/profileschema")
 const { Types } = require("mongoose");
+let emoji = require("../../emojis.json")
 module.exports = {
     name: 'balance',
     description: 'Shows the account balance of user',
@@ -39,12 +40,14 @@ module.exports = {
             } else {
                 return interaction.reply({
                     embeds: [
-                        new MessageEmbed().setColor("BLUE")
-                            .setTitle('Account Balance')
-                            .addField(`**Bank **  `, ` ** ${doc.bank} **`)
-                            .addField(`**Wallet **  `, `**${doc.wallet} **`)
-                            .addField(`**Total  ** `, ` **${doc.bank + doc.wallet}**`)
-                            .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+                        new MessageEmbed()
+                            .setTitle(`${emoji.money} **Account Balance**`)
+                            .setDescription(` **Bank **: ${doc.bank} \n
+                        ** Wallet **: ${doc.wallet} \n
+                        **Total **: ${doc.bank + doc.wallet}
+                        `)
+                            .setColor("BLUE")
+                            .setThumbnail(member.displayAvatarURL())
                             .setTimestamp()
                             .setFooter(`Economy By Shastri`)
                     ]
@@ -57,18 +60,20 @@ module.exports = {
                 return interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setDescription("You dont have a bank account please make one by ``account`` command")
+                            .setDescription(`${emoji.invalid}` + "He dont have a bank account please make one by ``account`` command")
                     ], ephemeral: true
                 })
             }
             await interaction.reply({
                 embeds: [
-                    new MessageEmbed().setColor("BLUE")
-                        .setTitle('Account Balance')
-                        .addField(`**Bank  **`, `${doc2.bank}`)
-                        .addField(`**Wallet **`, `${doc2.wallet}`)
-                        .addField(`** Total ** `, ` ${doc2.bank + doc2.wallet}`)
-                        .setThumbnail(member.displayAvatarURL({ dynamic: true }))
+                    new MessageEmbed()
+                        .setTitle(`${emoji.money} **Account Balance**`)
+                        .setDescription(` **Bank **: ${doc2.bank} \n
+                        ** Wallet **: ${doc2.wallet} \n
+                        **Total **: ${doc2.bank + doc2.wallet}
+                        `)
+                        .setColor("BLUE")
+                        .setThumbnail(user.displayAvatarURL())
                         .setTimestamp()
                         .setFooter(`Economy By Shastri`)
                 ]

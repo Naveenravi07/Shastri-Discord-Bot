@@ -2,6 +2,7 @@ const { MessageEmbed, MessageActionRow, MessageButton, CommandInteraction } = re
 const { Types } = require('mongoose')
 const dailyschema = require("../../schemas/dailyrewardschema")
 const profileschema = require('../../schemas/profileschema')
+let emoji = require("../../emojis.json")
 module.exports = {
     name: 'daily',
     description: 'Gets your daily bonous ',
@@ -36,7 +37,7 @@ module.exports = {
             // console.log(reward)
             const data = await dailyschema.findOneAndUpdate(
                 {
-                    userid: userid,guildid:guild.id
+                    userid: userid, guildid: guild.id
                 },
                 {
                     _id: Types.ObjectId(),
@@ -51,7 +52,7 @@ module.exports = {
             let ag = await profileschema.updateOne(
                 {
                     userid: userid,
-                    guildid:guild.id
+                    guildid: guild.id
                 },
                 [
                     {
@@ -73,7 +74,7 @@ module.exports = {
             interaction.reply({
                 embeds: [
                     new MessageEmbed().setColor('BLUE')
-                        .setDescription(`You- have earned ${reward} as your daily reward. Come back in  a day again`)
+                        .setDescription(`You- have earned ${reward} as your daily reward. Come back in  a day again ${emoji.purplefire}`)
                 ]
             })
         } else {
@@ -89,7 +90,7 @@ module.exports = {
                     return interaction.reply({
                         embeds: [
                             new MessageEmbed().setColor('BLUE')
-                                .setDescription(`You Have Already Colledcted Your Daily Reward. Comeback In A Day `)
+                                .setDescription(`${emoji.invalid} You Have Already Colledcted Your Daily Reward. Comeback In A Day `)
                         ], ephemeral: true
                     })
                 } else if (hours > 1) {
@@ -99,7 +100,7 @@ module.exports = {
                     return interaction.reply({
                         embeds: [
                             new MessageEmbed().setColor('BLUE')
-                                .setDescription(`You Have Already Colledcted Your Daily Reward.Comeback In  ${rdiff} Hours  `)
+                                .setDescription(` ${emoji.invalid} You Have Already Colledcted Your Daily Reward.Comeback In  ${rdiff} Hours  `)
                         ], ephemeral: true
                     })
                 } else if (hours < 1) {
@@ -111,7 +112,7 @@ module.exports = {
                     return interaction.reply({
                         embeds: [
                             new MessageEmbed().setColor('BLUE')
-                                .setDescription(`You Have Already Colledcted Your Daily Reward. Comeback In  ${rdiff2} Hours`)
+                                .setDescription(` ${emoji.invalid} You Have Already Colledcted Your Daily Reward. Comeback In  ${rdiff2} Hours`)
                         ], ephemeral: true
                     })
                 }
@@ -163,7 +164,7 @@ module.exports = {
                 return interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor('BLUE')
-                            .setDescription(`You - have earned ${reward} as your daily reward.Come back in a day again`)
+                            .setDescription(`You - have earned ${reward} as your daily reward.Come back in a day again ${emoji.purplefire}`)
                     ]
                 })
             }
