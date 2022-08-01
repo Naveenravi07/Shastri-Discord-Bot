@@ -5,7 +5,7 @@ let emoji = require("../../emojis.json")
 let ms = require("ms")
 module.exports = {
     name: 'rob',
-    description: 'Robs and grab money from a user',
+    description: 'Robs and grab money from a user [increase money by using robkit]',
     type: 'Economy',
     pems: 'everyone',
     usage: '/rob',
@@ -61,7 +61,7 @@ module.exports = {
                 embeds: [
                     new MessageEmbed().setColor("BLUE")
                         .setDescription(`${emoji.invalid} You have already robbed a member. please try after ${timeleft}ins`)
-                ],ephemeral:true
+                ], ephemeral: true
             })
         }
 
@@ -73,7 +73,7 @@ module.exports = {
                 embeds: [
                     new MessageEmbed().setColor("BLUE")
                         .setDescription(`${emoji.invalid} - You  need atlest 2000 in your wallet to rob someone`)
-                ],ephemeral:true
+                ], ephemeral: true
             })
         } else if (memberwalllet <= 2000) {
             if (scheck.wallet > 100) {
@@ -92,7 +92,7 @@ module.exports = {
                 return interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setDescription(`${emoji.laugh} You have been fined ${reward2} for trying to rob a poor person`)
+                            .setDescription(`${emoji.laugh} You have been fined ${reward2} for trying to rob  poor  <@${mention.id}> `)
                     ]
                 })
             } else {
@@ -136,7 +136,7 @@ module.exports = {
                 embeds: [
                     new MessageEmbed().setColor("BLUE")
                         .setTitle(`Robbed `)
-                        .setDescription(`${emoji.greentick} You robbed ${reward2} from ${mention.username} `)
+                        .setDescription(`${emoji.greentick} You robbed ${reward2} from  <@${mention.id}> `)
                         .setTimestamp()
                         .setThumbnail(mention.displayAvatarURL())
                         .setFooter(`Economy by shastri`)
@@ -176,10 +176,11 @@ module.exports = {
                 embeds: [
                     new MessageEmbed().setColor("BLUE")
                         .setTitle(`Robbed `)
-                        .setDescription(`${emoji.greentick} You robbed ${reward2} from ${mention.username} `)
+                        .setDescription(`${emoji.greentick} You robbed ${reward2} from <@${mention.id}> `)
                         .setTimestamp()
                         .setThumbnail(mention.displayAvatarURL())
                         .setFooter(`Economy by shastri`)
+                        .addFields({ name: 'Suggestion', value: 'Increase the amount by using a robkit . ' })
                 ]
             })
         }

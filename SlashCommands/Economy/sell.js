@@ -2,10 +2,10 @@ let { MessageEmbed, CommandInteraction, MessageActionRow, MessageButton, ButtonI
 let emoji = require("../../emojis.json")
 let profileschema = require("../../schemas/profileschema")
 module.exports = {
-    name: 'shop',
-    description: 'Purchase tools from market',
+    name: 'sell',
+    description: 'Sells tools in the market',
     type: 'Economy',
-    usage: '/shop',
+    usage: '/sell',
     perms: 'everyone',
     options: [
         {
@@ -18,23 +18,16 @@ module.exports = {
                 {
                     name: 'Rob Kit 👩🏻‍💻',
                     value: 'robkit',
-                    price: 8000
+                    price: 4000
                 }
             ]
         }
     ],
-    /**
-*
-* @param {Client} client
-* @param {CommandInteraction} interaction
-* @param {String[]} args
-*@param {Collector} interaction
-*/
     async run(client, interaction, args) {
         let { options, guild, user, member } = interaction
         switch (options.getString('items')) {
             case 'robkit': {
-                let price = 8000
+                let price = 4000
                 let userid = interaction.user.id
                 const row = new MessageActionRow().addComponents(
                     new MessageButton().setCustomId("yes")
@@ -49,7 +42,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new MessageEmbed().setColor("BLUE")
-                            .setDescription(`Are you sure u want to purchase robkit for 8000 rs ?`)
+                            .setDescription(`Are you sure u want to sell robkit for 4000 rs ?`)
                     ], components: [row]
                 })
 
@@ -74,52 +67,42 @@ module.exports = {
                                 ], components: []
                             })
                         }
-                        if (doc.wallet < price) {
+                        if (!doc.items.includes('robkit')) {
                             return interaction.editReply({
                                 embeds: [
-                                    new MessageEmbed().setColor("BLUE")
-                                        .setDescription("You dont have sufficient money in your wallet")
+                                    new MessageEmbed().setColor('BLUE')
+                                        .setDescription(`You Dont Own any robkit`)
                                 ], components: []
                             })
                         }
                         if (doc.items.includes('robkit')) {
-                            return interaction.editReply({
+                            let wal = doc.wallet + 4000
+                            await profileschema.update(
+                                { userid: user.id, guildid: guild.id },
+                                {
+                                    $pull: { items: "robkit" },
+                                    $set: {
+                                        wallet:wal
+                                    }
+                                },
+                            )
+                            await interaction.editReply({
                                 embeds: [
                                     new MessageEmbed().setColor("BLUE")
-                                        .setDescription("You already own a robkit")
-                                ], components: []
+                                        .setTitle(`Sold  Robkit `)
+                                        .setDescription(" Sold robkit for ``4000``")
+                                        .addFields(
+                                            { name: '```Item``` : RobKit ', value: '``Price`` :4000', inline: true },
+                                        )
+                                        .setThumbnail(member.displayAvatarURL())
+                                        .setTimestamp()
+                                        .setFooter(`Economy By Shastri`)
+
+                                ],
+                                components: []
                             })
+
                         }
-
-                        await profileschema.update(
-                            { userid: user.id, guildid: guild.id },
-                            {
-                                $push: { items: "robkit" },
-                            },
-                            {
-                                $set: {
-                                    wallet: {
-                                        $subtract: ["$wallet", price]
-                                    }
-                                }
-
-                            },
-                        )
-                        await interaction.editReply({
-                            embeds: [
-                                new MessageEmbed().setColor("BLUE")
-                                    .setTitle(`Purchase successful `)
-                                    .setDescription(" Purchase of ``8000`` successful ✅ ")
-                                    .addFields(
-                                        { name: '```Item``` : RobKit ', value: '``Price`` :8000', inline: true },
-                                    )
-                                    .setThumbnail(member.displayAvatarURL())
-                                    .setTimestamp()
-                                    .setFooter(`Economy By Shastri`)
-
-                            ],
-                            components: []
-                        })
                     }
                     else if (ButtonInteraction.customId == "no") {
                         await interaction.editReply({
@@ -147,6 +130,8 @@ module.exports = {
                 break;
             }
         }
+
     }
 
 }
+
