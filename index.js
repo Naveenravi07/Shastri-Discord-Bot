@@ -26,12 +26,13 @@ client.distube = new DisTube(client, {
 db.connectDb();
 // Initializing the project
 // require('./handler')(client);
-["index", "DistubeEvents" ].forEach(h => {
+["index", "DistubeEvents"].forEach(h => {
   require(`./handler/${h}`)(client)
 })
 
 
 let langsSettings = {};
+let welcomehannel = {};
 /* --- DASHBOARD --- */
 (async () => {
   DBfunctions.getmodcmd().then((data2) => {
@@ -71,14 +72,25 @@ let langsSettings = {};
   DBD.Dashboard = DBD.UpdatedClass();
 
   const Dashboard = new DBD.Dashboard({
-    port: 80,
+    port: 8000,
     client: {
       id: config.discord.client_id,
       secret: config.discord.client_secret
     },
-    redirectUri: config.redirect_uri,
+    redirectUri: "http://localhost:8000/discord/callback",
     domain: 'http://localhost',
     bot: client,
+    minimalizedConsoleLogs: true,
+    guildAfterAuthorization: {
+      use: true,
+      guildid: "909123885977456681"
+    },
+    invite: {
+      clientId: client.user.id,
+      scopes: ["bot", "applications.commands", "guilds", "identify"],
+      permissions: "8",
+      redirectUri: "http://localhost:8000/discord/callback"
+    },
     theme: DarkDashboard({ DarkDashboard }),
     theme: DarkDashboard({
       information: {
@@ -203,25 +215,25 @@ let langsSettings = {};
 
     settings: [
       {
-        categoryId: 'setup',
-        categoryName: "Setup",
-        categoryDescription: "Setup your bot with default settings!",
+        categoryId: 'WelcomeSystem',
+        categoryName: "Welcome System",
+        categoryDescription: "Customize the welcome message and much more here ",
         categoryOptionsList: [
           {
-            optionId: 'lang',
-            optionName: "Language",
-            optionDescription: "Change bot's language easily",
-            optionType: DBD.formTypes.select({ "Polish": 'pl', "English": 'en', "French": 'fr' }),
+            optionid: 'channel',
+            optionName: "Welcome Channel",
+            optionDescription: "Set Or Reset The Welcome Channel of the server",
+            optionType: DBD.formTypes.channelsSelect(false, ['GUILD_TEXT']),
             getActualSet: async ({ guild }) => {
-              return langsSettings[guild.id] || null;
+              return welcomehannel[guild.id] || null;
             },
             setNew: async ({ guild, newData }) => {
-              langsSettings[guild.id] = newData;
+              welcomehannel[guild.id] = newData;
               return;
             }
-          },
+          }
         ]
-      },
+      }
     ]
   });
   Dashboard.init();

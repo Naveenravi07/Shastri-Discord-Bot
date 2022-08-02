@@ -24,14 +24,27 @@ module.exports = {
         const user = options.getMember('user')
 
         if (interaction.member.permissions.has("MANAGE_NICKNAMES")) {
-            await user.setNickname("", 'noreason')
+            try {
+                await user.setNickname("", 'noreason')
 
-            interaction.reply({embeds:[
-                new MessageEmbed().setColor(`BLUE`)
-                .setDescription(`\n Removed  Nickname of <@${user.id}> `)
-                .setFooter(`Nickname Removed By Shasri`)
-                .setTimestamp()
-            ]})
+                interaction.reply({
+                    embeds: [
+                        new MessageEmbed().setColor(`BLUE`)
+                            .setDescription(`\n Removed  Nickname of <@${user.id}> `)
+                            .setFooter(`Nickname Removed By Shasri`)
+                            .setTimestamp()
+                    ]
+                })
+            } catch (Err) {
+                return interaction.reply({
+                    embeds: [
+                        new MessageEmbed().setColor("BLUE")
+                            .setDescription(`The person you are trying to change nickname is
+                             having a role higher than you. To Change the nickname the bot must have a role higher than the mentioned one`)
+                    ], ephemeral: true
+                })
+            }
+
         } else {
             interaction.reply({
                 embeds: [
