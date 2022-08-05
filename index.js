@@ -7,7 +7,6 @@ const client = new Client({
 });
 const config = require('./config.js');
 const DarkDashboard = require('dbd-dark-dashboard');
-const DBD = require("discord-dashboard");
 const cmdschema = require('./schemas/commandschema')
 const DBfunctions = require("./Functions/Getcmdinfo")
 // Global Variables
@@ -35,38 +34,43 @@ let langsSettings = {};
 let welcomehannel = {};
 /* --- DASHBOARD --- */
 (async () => {
-  DBfunctions.getmodcmd().then((data2) => {
 
-    modcm = data2
-  }).catch((error) => {
-    console.log(error);
-  });
-  DBfunctions.getfuncmd().then((data) => {
-
-    funcm = data
-  }).catch((error) => {
-    console.log(error);
-  });
-
-  DBfunctions.getUtilcmd().then((data3) => {
-
-    utilcm = data3;
-  }).catch((Err) => {
-    console.log(Err);
-  })
-
-  DBfunctions.getInfocmd().then((data4) => {
-
-    infocm = data4;
-  }).catch((Err) => {
-    console.log(Err);
-  })
-
-  DBfunctions.getEcoCmd().then((data5) => {
-    ecocm = data5;
-  }).catch((Err) => {
-    console.log(Err);
-  })
+  let cmds = await DBfunctions.getAllcmds()
+  let modcm = []
+  let infocm = []
+  let ecocm = []
+  let funcm = []
+  let utilcm=[]
+  function sortMod(cmd) {
+    let modcm2 = cmd.filter(cmd => {
+      return cmd.type === "Moderation" && modcm.push(cmd)
+    })
+  }
+  function sortInfo(cmd) {
+    let modcm2 = cmd.filter(cmd => {
+      return cmd.type === "information" && infocm.push(cmd)
+    })
+  }
+  function sortEco(cmd) {
+    let modcm2 = cmd.filter(cmd => {
+      return cmd.type === "Economy" && ecocm.push(cmd)
+    })
+  }
+  function sortFun(cmd) {
+    let modcm2 = cmd.filter(cmd => {
+      return cmd.type === "Fun" && funcm.push(cmd)
+    })
+  }
+  function sortUtil(cmd) {
+    let modcm2 = cmd.filter(cmd => {
+      return cmd.type === "Utility" && utilcm.push(cmd)
+    })
+  }
+  sortMod(cmds)
+  sortEco(cmds)
+  sortFun(cmds)
+  sortInfo(cmds)
+  sortUtil(cmds)
   let DBD = require('discord-dashboard');
   await DBD.useLicense(config.dbd_license);
   DBD.Dashboard = DBD.UpdatedClass();
@@ -86,19 +90,19 @@ let welcomehannel = {};
       guildid: "909123885977456681"
     },
     invite: {
-      clientId: client.user.id,
+      // clientId: client.user.id,
       scopes: ["bot", "applications.commands", "guilds", "identify"],
       permissions: "8",
       redirectUri: "http://localhost:8000/discord/callback"
     },
-    theme: DarkDashboard({ DarkDashboard }),
+    // theme: DarkDashboard({ DarkDashboard }),
     theme: DarkDashboard({
       information: {
         createdBy: "Shastri",
         websiteTitle: "ShastriClone",
         websiteName: "Shastri Clone",
         websiteUrl: "https:/www.naveenravi.com/",
-        dashboardUrl: "http://localhost:3000/",
+        dashboardUrl: "http://localhost:8000/",
         supportServer: "https://discord.gg/y8FwHxdnM4",
         imageFavicon: "https://external-preview.redd.it/SVGUOGm7cqu-NXV5I3lEaEz3OfmCm3II3pINCfxWJk8.png?auto=webp&s=817448de307f4ef8fcd2bdb042cb28f3a67fbfe4",
         iconURL: "https://external-preview.redd.it/SVGUOGm7cqu-NXV5I3lEaEz3OfmCm3II3pINCfxWJk8.png?auto=webp&s=817448de307f4ef8fcd2bdb042cb28f3a67fbfe4",
@@ -215,29 +219,30 @@ let welcomehannel = {};
 
     settings: [
       {
-        categoryId: 'WelcomeSystem',
+        categoryId: "test12",
         categoryName: "Welcome System",
-        categoryDescription: "Customize the welcome message and much more here ",
+        categoryDescription: "Customize the welcome message and much more ",
         categoryOptionsList: [
           {
-            optionid: 'channel',
+            optionid: "hey45",
             optionName: "Welcome Channel",
-            optionDescription: "Set Or Reset The Welcome Channel of the server",
-            optionType: DBD.formTypes.channelsSelect(false, ['GUILD_TEXT']),
+            optionDescription: "Set Or Reset The Welcome Channel of the server :P",
+            optionType: DBD.formTypes.channelsSelect(false, "GUILD_TEXT"),
             getActualSet: async ({ guild }) => {
               return welcomehannel[guild.id] || null;
             },
-            setNew: async ({ guild, newData }) => {
+            setNew: async ({ guild, user, newData }) => {
+              console.log(newData);
               welcomehannel[guild.id] = newData;
               return;
             }
-          }
+          },
         ]
       }
     ]
   });
   Dashboard.init();
 })();
-
+console.log(welcomehannel);
 module.exports = client;
 client.login(client.config.token);

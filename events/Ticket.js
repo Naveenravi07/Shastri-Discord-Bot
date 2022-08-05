@@ -5,9 +5,10 @@ const client = require("../index")
 
 client.on("interactionCreate", async (interaction) => {
     if (interaction.isButton()) {
-        await interaction.deferUpdate()
+       
 
         if (interaction.customId == "tic") {
+            await interaction.deferUpdate()
             const altfind = await interaction.guild.channels.cache.find(c => c.type === "GUILD_TEXT" && c.name === `ticket-${interaction.user.id}`)
             if (altfind) {
 
@@ -18,7 +19,7 @@ client.on("interactionCreate", async (interaction) => {
                     .setFooter("Ticket By Shastri")
 
                 // await interaction.message.member.send({embeds:[altembed]})
-              await  client.users.cache.get(`${interaction.member.id}`).send({embeds:[altembed]});
+                await client.users.cache.get(`${interaction.member.id}`).send({ embeds: [altembed] });
 
             } else {
                 const ticchannel = await interaction.guild.channels.create(`ticket-${interaction.user.id}`, {
@@ -77,4 +78,5 @@ client.on("interactionCreate", async (interaction) => {
             channel.delete()
         }
     }
+    else return
 })
