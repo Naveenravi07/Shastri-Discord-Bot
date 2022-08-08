@@ -1,6 +1,6 @@
 let { MessageEmbed, CommandInteraction } = require("discord.js")
 const profileschema = require("../../schemas/profileschema")
-let emoji=require("../../emojis.json")
+let emoji = require("../../emojis.json")
 module.exports = {
     name: 'account',
     description: 'Create,Delete,Activate,Inactivate users economy account',
@@ -54,6 +54,7 @@ module.exports = {
                             {
                                 guildid: guild.id,
                                 userid: member.id,
+                                username: member.user.username,
                                 wallet: 1000,
                                 bank: 5000
                             },

@@ -12,6 +12,7 @@ const DBfunctions = require("./Functions/Getcmdinfo")
 // Global Variables
 client.commands = new Collection();
 client.slashCommands = new Collection();
+client.cmdNames = new Collection()
 client.config = require('./config.json');
 
 //Music
@@ -40,7 +41,7 @@ let welcomehannel = {};
   let infocm = []
   let ecocm = []
   let funcm = []
-  let utilcm=[]
+  let utilcm = []
   function sortMod(cmd) {
     let modcm2 = cmd.filter(cmd => {
       return cmd.type === "Moderation" && modcm.push(cmd)
@@ -231,7 +232,7 @@ let welcomehannel = {};
             getActualSet: async ({ guild }) => {
               return welcomehannel[guild.id] || null;
             },
-            setNew: async ({ guild, user, newData }) => {
+            setNew: async ({ guild, newData }) => {
               console.log(newData);
               welcomehannel[guild.id] = newData;
               return;

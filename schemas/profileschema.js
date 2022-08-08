@@ -9,6 +9,9 @@ const profileschema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    username:{
+        type:String
+    },
     bank: {
         type: Number,
         required: true,
